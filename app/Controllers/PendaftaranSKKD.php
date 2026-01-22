@@ -73,7 +73,6 @@ class PendaftaranSKKD extends BaseController
                 'errors' => $this->validator->getErrors()
             ]);
         }
-
         // Mapping data
         $data = [
             'id_pasien'       => $this->request->getPost('id_pasien'),

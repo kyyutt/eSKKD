@@ -7,22 +7,29 @@ use App\Models\UserModel;
 
 class AuthController extends BaseController
 {
+    protected $userModel;
+    
+    public function __construct()
+    {
+        $this->userModel = new UserModel();
+    }
+    // Fuctions for Authentication
     public function login()
     {
-        // Jika sudah login, lempar ke dashboard
+        // If already logged in, redirect to dashboard
         if (session()->get('isLoggedIn')) {
             return redirect()->to('/');
         }
         return view('login');
     }
 
+    // Process Login Form Submission
     public function processLogin()
     {
-        $userModel = new UserModel();
 
-        // --- FITUR AUTO SEED (Opsional: Buat User Admin jika database kosong) ---
-        if ($userModel->countAllResults() === 0) {
-            $userModel->insert([
+        // Create default admin user if none exists
+        if ($this->userModel->countAllResults() === 0) {
+            $this->userModel->insert([
                 'nama_lengkap' => 'Administrator',
                 'username'     => 'admin',
                 'password'     => password_hash('admin123', PASSWORD_DEFAULT),
@@ -30,17 +37,17 @@ class AuthController extends BaseController
             ]);
         }
 
-        // 1. Ambil Input
+        // First, get input data
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        // 2. Cari User
-        $user = $userModel->where('username', $username)->first();
+        // Second, find user by username
+        $user = $this->userModel->where('username', $username)->first();
 
-        // 3. Cek Password
+        // Third, verify password
         if ($user && password_verify($password, $user['password'])) {
 
-            $userModel->update($user['id_user'], [
+            $this->userModel->update($user['id_user'], [
                 'last_login' => date('Y-m-d H:i:s')
             ]);
 
@@ -55,12 +62,14 @@ class AuthController extends BaseController
             return redirect()->to('/');
         }
 
-        // Jika Gagal
+        // If login fails, redirect back with error
         return redirect()->back()->with('error', 'Username atau password salah');
     }
 
+    // Logout Function
     public function logout()
     {
+        // Destroy session and redirect to login
         session()->destroy();
         return redirect()->to('/login');
     }
