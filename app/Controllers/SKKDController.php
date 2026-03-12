@@ -93,19 +93,15 @@ class SKKDController extends BaseController
         $dataSKKD = $this->skkd->find($id);
 
         if ($dataSKKD) {
-            // 2. Kembalikan status pendaftaran ke 'Verifikasi' 
-            // Agar petugas bisa memperbaiki data jika ada kesalahan sebelum diterbitkan ulang
-            $this->pendaftaran->update($dataSKKD['id_pendaftaran'], [
-                'status'     => 'Terverifikasi',
-                'updated_by' => session()->get('id_user')
-            ]);
+            // 2. Hapus data pendaftaran terkait
+            $this->pendaftaran->delete($dataSKKD['id_pendaftaran']);
 
             // 3. Hapus data SKKD
             $this->skkd->delete($id);
 
             return $this->response->setJSON([
                 'status'  => true,
-                'message' => 'Data SKKD berhasil dihapus dan status pendaftaran dikembalikan ke Verifikasi'
+                'message' => 'Data SKKD dan pendaftaran berhasil dihapus'
             ]);
         }
 

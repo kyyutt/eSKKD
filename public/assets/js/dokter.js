@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             loadDokter(); // Refresh tabel
             alert("Data berhasil disimpan!");
           } else {
-            alert("Gagal menyimpan data. Periksa inputan Anda.");
+            alert(res.message || "Gagal menyimpan data. Periksa inputan Anda.");
           }
         })
         .catch((err) => console.error("Error store:", err));
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
             loadDokter(); // Refresh tabel
             alert("Data berhasil diperbarui!");
           } else {
-            alert("Gagal mengupdate data.");
+            alert(res.message ||"Gagal mengupdate data.");
           }
         })
         .catch((err) => console.error("Error update:", err));

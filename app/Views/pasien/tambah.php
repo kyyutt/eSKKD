@@ -83,7 +83,7 @@
                 </div>
 
                 <div class="space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Pekerjaan</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Pekerjaan <span class="text-red-500">*</span></label>
                     <input 
                         type="text" 
                         name="pekerjaan" 

@@ -14,6 +14,9 @@ $routes->get('/logout', 'AuthController::logout');
 // Protected Routes for Dashboard
 $routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
 
+$routes->get('/backup-database', 'DashboardController::backup_database', ['filter' => 'auth']);
+$routes->post('/restore_database', 'DashboardController::restore_database', ['filter' => 'auth']);
+
 // Protected Routes for User Management
 $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'UserController::index');
@@ -39,6 +42,7 @@ $routes->group('pasien', ['filter' => 'auth'], function ($routes) {
 // Protected Routes for Dokter Management
 $routes->group('dokter', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'DokterController::index');
+    $routes->get('(:num)', 'DokterController::show/$1');
     $routes->get('ajaxList', 'DokterController::ajaxList');
     $routes->post('store', 'DokterController::store');
     $routes->post('update/(:num)', 'DokterController::update/$1');

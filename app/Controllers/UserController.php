@@ -77,11 +77,34 @@ class UserController extends BaseController
     }
     public function store()
     {
+        $nama_lengkap = trim($this->request->getPost('nama_lengkap'));
+        $username = trim($this->request->getPost('username'));
+        $password = trim($this->request->getPost('password'));
+        $role = trim($this->request->getPost('role'));
+
+        // Validasi field kosong
+        if (!$nama_lengkap) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama lengkap wajib diisi']);
+        }
+        if (!$username) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Username wajib diisi']);
+        }
+        if (!$password) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Password wajib diisi']);
+        }
+        if (!$role) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Role wajib diisi']);
+        }
+        $existingUser = $this->user->where('username', $username)->first();
+        if ($existingUser) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Username ini sudah digunakan!']);
+        }
+
         $data = [
-            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'username'     => $this->request->getPost('username'),
-            'password'     => password_hash($this->request->getPost('password'), PASSWORD_BCRYPT),
-            'role'         => $this->request->getPost('role'),
+            'nama_lengkap' => $nama_lengkap,
+            'username'     => $username,
+            'password'     => password_hash($password, PASSWORD_BCRYPT),
+            'role'         => $role,
         ];
 
         $this->user->insert($data);
@@ -91,14 +114,29 @@ class UserController extends BaseController
 
     public function update($id)
     {
+        $nama_lengkap = trim($this->request->getPost('nama_lengkap'));
+        $username = trim($this->request->getPost('username'));
+        $role = trim($this->request->getPost('role'));
+        $password = trim($this->request->getPost('password'));
+
+        // Validasi field kosong
+        if (!$nama_lengkap || !$username || !$role) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama lengkap, username, dan role wajib diisi']);
+        }
+
+        // Cek username sudah digunakan oleh user lain
+        $existingUser = $this->user->where('username', $username)->where('id_user !=', $id)->first();
+        if ($existingUser) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Username ini sudah digunakan!']);
+        }
+
         $data = [
-            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'username'     => $this->request->getPost('username'),
-            'role'         => $this->request->getPost('role'),
+            'nama_lengkap' => $nama_lengkap,
+            'username'     => $username,
+            'role'         => $role,
         ];
 
         // Cek apakah password diisi
-        $password = $this->request->getPost('password');
         if ($password) {
             $data['password'] = password_hash($password, PASSWORD_BCRYPT);
         }
@@ -107,6 +145,7 @@ class UserController extends BaseController
 
         return $this->response->setJSON(['status' => true, 'message' => 'Data user diperbarui']);
     }
+
     public function delete($id)
     {
         $this->user->delete($id);
@@ -119,7 +158,7 @@ class UserController extends BaseController
         $id = session()->get('id_user');
         $user = $this->user->find($id);
         if ($user) {
-            unset($user['password']); // Keamanan: jangan kirim hash password ke JS
+            unset($user['password']);
             return $this->response->setJSON($user);
         }
         return $this->response->setJSON(['status' => false], 404);
@@ -131,12 +170,19 @@ class UserController extends BaseController
         $id = session()->get('id_user');
         $user = $this->user->find($id);
 
-        $passwordLama = $this->request->getPost('password_lama');
+        // Trim hanya untuk nama dan username
+        $nama = trim($this->request->getPost('nama_lengkap'));
+        $username = trim($this->request->getPost('username'));
+        $passwordLama = $this->request->getPost('password_lama'); // password jangan di-trim
         $passwordBaru = $this->request->getPost('password_baru');
 
+        if (empty($nama) || empty($username)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama dan Username tidak boleh kosong!']);
+        }
+
         $dataUpdate = [
-            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'username'     => $this->request->getPost('username'),
+            'nama_lengkap' => $nama,
+            'username'     => $username,
         ];
 
         if (!empty($passwordBaru)) {

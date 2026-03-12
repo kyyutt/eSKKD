@@ -199,28 +199,25 @@ function detailSKKD(id) {
 
 // --- FITUR: CETAK (Sama dengan alur aksi di pasien.js) ---
 function cetakSKKD(id) {
-    if (confirm("Cetak surat ini? Status pendaftaran akan otomatis berubah menjadi 'Selesai'")) {
-        
-        // LANGKAH 1: Panggil route untuk update status database
-        fetch(`/skkd/cetak/${id}`)
-            .then(res => res.json())
-            .then(res => {
-                if (res.status) {
-                    // LANGKAH 2: Jika database berhasil diupdate, buka halaman cetak
-                    // Ini akan memanggil function print_pdf di Controller
-                    window.open(`/skkd/print_pdf/${id}`, "_blank");
-                    
-                    // LANGKAH 3: Refresh tabel utama agar status berubah di layar
-                    loadSKKD(); 
-                } else {
-                    alert("Gagal memperbarui status: " + res.message);
-                }
-            })
-            .catch(err => {
-                console.error("Error cetak:", err);
-                alert("Terjadi kesalahan sistem saat mencoba mencetak.");
-            });
-    }
+  // LANGKAH 1: Panggil route untuk update status database
+  fetch(`/skkd/cetak/${id}`)
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.status) {
+        // LANGKAH 2: Jika database berhasil diupdate, buka halaman cetak
+        // Ini akan memanggil function print_pdf di Controller
+        window.open(`/skkd/print_pdf/${id}`, "_blank");
+
+        // LANGKAH 3: Refresh tabel utama agar status berubah di layar
+        loadSKKD();
+      } else {
+        alert("Gagal memperbarui status: " + res.message);
+      }
+    })
+    .catch((err) => {
+      console.error("Error cetak:", err);
+      alert("Terjadi kesalahan sistem saat mencoba mencetak.");
+    });
 }
 
 // --- FITUR: HAPUS SKKD ---

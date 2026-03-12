@@ -65,59 +65,57 @@ if (session()->get('role') === 'Admin') {
       </div>
    </div>
 
-   <div class="grid grid-cols-1 xl:grid-cols-3 gap-10">
-
-      <div class="xl:col-span-2 bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden">
-         <div class="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <div>
-               <h4 class="text-lg font-black text-slate-800 tracking-tight">Riwayat SKKD Terbaru</h4>
-               <p class="text-xs text-slate-400 font-medium">Monitoring penerbitan dokumen secara live</p>
-            </div>
-            <a href="#" class="px-5 py-2.5 bg-emerald-950 text-white text-[10px] font-bold rounded-xl shadow-lg hover:shadow-emerald-900/20 transition-all uppercase tracking-widest">Lihat Semua</a>
+   <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 overflow-hidden text-nowrap">
+      <div class="p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+         <div>
+            <h4 class="text-lg font-black text-slate-800 tracking-tight">Riwayat SKKD Terbaru</h4>
+            <p class="text-xs text-slate-400 font-medium">Monitoring penerbitan dokumen secara live</p>
          </div>
-         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-               <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
-                  <tr>
-                     <th class="px-8 py-4">No. SKKD</th>
-                     <th class="px-8 py-4">Nama Pasien</th>
-                     <th class="px-8 py-4">Dokter</th>
-                     <th class="px-8 py-4">Status</th>
-                  </tr>
-               </thead>
-               <tbody class="divide-y divide-slate-50">
-                  <?php if (empty($recentSKKD)) : ?>
-                     <tr>
-                        <td colspan="5" class="px-8 py-5 text-center text-slate-400 text-xs italic">Belum ada data SKKD diterbitkan.</td>
-                     </tr>
-                  <?php else : ?>
-                     <?php foreach ($recentSKKD as $row) : ?>
-                        <tr class="hover:bg-emerald-50/30 transition-colors">
-                           <td class="px-8 py-5 text-emerald-700 font-bold text-xs whitespace-nowrap"><?= $row['nomor_surat'] ?></td>
-                           <td class="px-8 py-5">
-                              <p class="text-sm font-bold text-slate-800"><?= $row['nama_pasien'] ?></p>
-                              <p class="text-[10px] text-slate-400 font-mono">NIK: <?= $row['nik'] ?></p>
-                           </td>
-                           <td class="px-8 py-5 text-slate-600 text-xs font-medium italic"><?= $row['nama_dokter'] ?></td>
-                           <td class="px-8 py-5">
-                              <?php
-                              $badgeColor = 'bg-slate-100 text-slate-700';
-                              if ($row['status'] == 'Terverifikasi') {
-                                 $badgeColor = 'bg-blue-100 text-blue-700';
-                              } elseif ($row['status'] == 'Selesai') {
-                                 $badgeColor = 'bg-green-100 text-green-700';
-                              }
-                              ?>
-                              <span class="px-3 py-1 <?= $badgeColor ?> rounded-full text-[9px] font-black uppercase tracking-wider"><?= $row['status'] ?></span>
-                           </td>
-                        </tr>
-                     <?php endforeach; ?>
-                  <?php endif; ?>
-               </tbody>
-            </table>
-         </div>
+         <a href="#" class="px-5 py-2.5 bg-emerald-950 text-white text-[10px] font-bold rounded-xl shadow-lg hover:shadow-emerald-900/20 transition-all uppercase tracking-widest">Lihat Semua</a>
       </div>
-
+      <div class="overflow-x-auto">
+         <table class="w-full text-left">
+            <thead class="bg-slate-50 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+               <tr>
+                  <th class="px-8 py-4">No. SKKD</th>
+                  <th class="px-8 py-4">Nama Pasien</th>
+                  <th class="px-8 py-4">Dokter</th>
+                  <th class="px-8 py-4">Status</th>
+               </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+               <?php if (empty($recentSKKD)) : ?>
+                  <tr>
+                     <td colspan="5" class="px-8 py-5 text-center text-slate-400 text-xs italic">Belum ada data SKKD diterbitkan.</td>
+                  </tr>
+               <?php else : ?>
+                  <?php foreach ($recentSKKD as $row) : ?>
+                     <tr class="hover:bg-emerald-50/30 transition-colors">
+                        <td class="px-8 py-5 text-emerald-700 font-bold text-xs whitespace-nowrap"><?= $row['nomor_surat'] ?></td>
+                        <td class="px-8 py-5">
+                           <p class="text-sm font-bold text-slate-800"><?= $row['nama_pasien'] ?></p>
+                           <p class="text-[10px] text-slate-400 font-mono">NIK: <?= $row['nik'] ?></p>
+                        </td>
+                        <td class="px-8 py-5 text-slate-600 text-xs font-medium italic"><?= $row['nama_dokter'] ?></td>
+                        <td class="px-8 py-5">
+                           <?php
+                           $badgeColor = 'bg-slate-100 text-slate-700';
+                           if ($row['status'] == 'Terverifikasi') {
+                              $badgeColor = 'bg-blue-100 text-blue-700';
+                           } elseif ($row['status'] == 'Selesai') {
+                              $badgeColor = 'bg-green-100 text-green-700';
+                           }
+                           ?>
+                           <span class="px-3 py-1 <?= $badgeColor ?> rounded-full text-[9px] font-black uppercase tracking-wider"><?= $row['status'] ?></span>
+                        </td>
+                     </tr>
+                  <?php endforeach; ?>
+               <?php endif; ?>
+            </tbody>
+         </table>
+      </div>
+   </div>
+   <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
       <!-- Simplified Shortcut Area (1/3) - UPDATED -->
       <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 space-y-6 text-nowrap">
          <div>
@@ -162,6 +160,45 @@ if (session()->get('role') === 'Admin') {
             <p class="text-[10px] text-emerald-700 leading-relaxed italic font-medium uppercase tracking-tight">Gunakan pintasan di atas untuk mempercepat akses administrasi data pasien dan pelaporan berkala.</p>
          </div>
       </div>
+      <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200 p-8 space-y-6 text-nowrap">
+         <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center text-amber-600">
+               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+               </svg>
+            </div>
+            <div>
+               <h4 class="text-sm font-black text-slate-800 uppercase tracking-widest">Pemeliharaan Data</h4>
+               <p class="text-[10px] text-slate-400 font-medium italic">Backup & Restore Basis Data</p>
+            </div>
+         </div>
+
+         <div class="grid grid-cols-1 gap-3">
+            <!-- Backup Button -->
+            <a href="<?= base_url('/backup-database') ?>" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-xl shadow-emerald-600/10 transition-all flex items-center justify-center space-x-3 uppercase tracking-widest text-[10px]">
+               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+               </svg>
+               <span>Backup Database</span>
+            </a>
+
+            <!-- Restore Button -->
+            <button onclick="toggleModal('modalRestoreDatabase')" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-600 font-black rounded-2xl transition-all flex items-center justify-center space-x-3 uppercase tracking-widest text-[10px]">
+               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+               </svg>
+               <span>Restore Database</span>
+            </button>
+         </div>
+
+         <div class="p-5 bg-amber-50 rounded-2xl border border-amber-100 text-wrap">
+            <p class="text-[9px] text-amber-700 leading-relaxed font-bold uppercase tracking-tight italic">Peringatan: Gunakan fitur 'Restore' hanya dalam kondisi darurat. Data saat ini akan ditimpa sepenuhnya oleh file cadangan.</p>
+            <p class="text-[10px] text-slate-500 mt-2 font-medium">
+               Terakhir di-backup: <span class="text-emerald-600 font-bold"><?= $lastBackup ?></span>
+            </p>
+         </div>
+      </div>
+   </div>
 
    </div>
 <?php
@@ -326,5 +363,82 @@ if (session()->get('role') === 'Admin') {
 <?php
 }
 ?>
+<?= $this->section('modals') ?>
+<div id="modalRestoreDatabase" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+   <div class="bg-white w-full max-w-sm rounded-[2.5rem] shadow-2xl overflow-hidden p-8 text-center border border-slate-200">
+      <div class="mx-auto w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 mb-6">
+         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+         </svg>
+      </div>
+
+      <h3 class="text-xl font-black text-slate-800 tracking-tight">Pulihkan Data?</h3>
+      <p class="mt-3 text-xs text-slate-500 leading-relaxed">Seluruh data saat ini akan <b>dihapus & diganti</b> dengan data dari file backup yang Anda pilih.</p>
+
+      <div class="mt-8 space-y-3">
+         <input type="file" id="fileInputRestore" accept=".sql" class="hidden" onchange="eksekusiRestore(this)">
+
+         <button onclick="document.getElementById('fileInputRestore').click()"
+            class="w-full py-4 bg-amber-500 hover:bg-amber-600 text-white font-black rounded-2xl shadow-xl shadow-amber-600/20 transition-all uppercase tracking-widest text-[10px]">
+            Pilih File & Pulihkan
+         </button>
+
+         <button onclick="toggleModal('modalRestoreDatabase')"
+            class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold rounded-2xl transition-all uppercase tracking-widest text-[10px]">
+            Batalkan
+         </button>
+      </div>
+   </div>
+</div>
+<?= $this->endSection() ?>
+<script>
+   // Fungsi untuk buka/tutup modal
+   function toggleModal(id) {
+      const modal = document.getElementById(id);
+      if (modal.classList.contains('hidden')) {
+         modal.classList.remove('hidden');
+         modal.classList.add('flex');
+      } else {
+         modal.classList.remove('flex');
+         modal.classList.add('hidden');
+      }
+   }
+
+   // Fungsi eksekusi setelah file dipilih
+   function eksekusiRestore(input) {
+      if (input.files && input.files[0]) {
+         const file = input.files[0];
+
+         // Tampilkan loading sederhana (opsional)
+         const btn = document.querySelector('#modalRestoreDatabase button:first-of-type');
+         const originalText = btn.innerHTML;
+         btn.innerHTML = 'Sedang Memproses...';
+         btn.disabled = true;
+
+         let formData = new FormData();
+         formData.append('sql_file', file);
+
+         fetch('<?= base_url('/restore_database') ?>', {
+               method: 'POST',
+               body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+               alert(data.message); // Kamu bisa ganti pakai SweetAlert kalau mau
+               location.reload();
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Gagal memulihkan database. Cek koneksi atau file SQL Anda.');
+            })
+            .finally(() => {
+               btn.innerHTML = originalText;
+               btn.disabled = false;
+               toggleModal('modalRestoreDatabase');
+            });
+      }
+   }
+</script>
 
 <?= $this->endSection(); ?>
+
