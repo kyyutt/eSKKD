@@ -14,6 +14,9 @@ $routes->get('/logout', 'AuthController::logout');
 // Protected Routes for Dashboard
 $routes->get('/', 'DashboardController::index', ['filter' => 'auth']);
 
+$routes->get('/backup-database', 'DashboardController::backup_database', ['filter' => 'auth']);
+$routes->post('/restore_database', 'DashboardController::restore_database', ['filter' => 'auth']);
+
 // Protected Routes for User Management
 $routes->group('user', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'UserController::index');
