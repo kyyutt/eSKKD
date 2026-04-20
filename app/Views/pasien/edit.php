@@ -13,31 +13,31 @@
             <form id="formEditPasien" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">NIK (Nomor Induk Kependudukan)</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">NIK (Nomor Induk Kependudukan) <span class="text-red-500">*</span></label>
                     <input type="number" name="nik" readonly 
                         class="w-full px-3 py-2.5 bg-slate-100 border border-slate-300 rounded-lg text-sm text-slate-500 font-normal focus:outline-none cursor-not-allowed">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap Pasien</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap Pasien <span class="text-red-500">*</span></label>
                     <input type="text" name="nama_lengkap" 
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Tempat Lahir</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Tempat Lahir <span class="text-red-500">*</span></label>
                     <input type="text" name="tempat_lahir" 
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Tanggal Lahir</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Tanggal Lahir <span class="text-red-500">*</span></label>
                     <input type="date" name="tanggal_lahir" 
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Jenis Kelamin</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Jenis Kelamin <span class="text-red-500">*</span></label>
                     <div class="flex gap-3">
                         <label class="flex items-center space-x-2 cursor-pointer p-2.5 border border-slate-200 rounded-lg hover:bg-slate-50 w-full justify-center has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 transition-all">
                             <input type="radio" name="jenis_kelamin" value="L" class="w-4 h-4 text-blue-600 border-slate-300 focus:ring-blue-500">
@@ -51,13 +51,13 @@
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Pekerjaan</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Pekerjaan <span class="text-red-500">*</span></label>
                     <input type="text" name="pekerjaan" 
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Alamat Lengkap</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Alamat Lengkap <span class="text-red-500">*</span></label>
                     <textarea name="alamat" rows="3" 
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none"></textarea>
                 </div>

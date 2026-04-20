@@ -61,16 +61,16 @@ function setFontBold($targetPage, $current_page)
 
         <?php if (session()->get('role') === 'Admin'): ?>
             <!-- ================= ADMIN ================= -->
-
+            <a href="<?= base_url('/') ?>" class="flex items-center space-x-3 p-3 transition-all group <?php echo setActive('', $current_page); ?>">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a11 1 0 003 3h10a1 1 0 001-1V10M9 21h6"></path>
+                </svg>
+                <span class="text-sm <?php echo setFontBold('', $current_page); ?>">Dashboard Utama</span>
+            </a>
             <!-- Group 1: Data Master -->
             <div class="space-y-2">
                 <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-[0.2em] px-4 mb-4">Data Master</p>
-                <a href="<?= base_url('/') ?>" class="flex items-center space-x-3 p-3 transition-all group <?php echo setActive('', $current_page); ?>">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a11 1 0 003 3h10a1 1 0 001-1V10M9 21h6"></path>
-                    </svg>
-                    <span class="text-sm <?php echo setFontBold('', $current_page); ?>">Dashboard Utama</span>
-                </a>
+
                 <a href="<?= base_url('user') ?>" class="flex items-center space-x-3 p-3 transition-all group <?php echo setActive('user', $current_page); ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
@@ -89,6 +89,7 @@ function setFontBold($targetPage, $current_page)
                     </svg>
                     <span class="text-sm <?php echo setFontBold('pasien', $current_page); ?>">Data Pasien</span>
                 </a>
+
             </div>
 
             <!-- Group 2: Transaksi -->

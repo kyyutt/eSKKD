@@ -60,7 +60,7 @@ function doSearch() {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
       },
-    }
+    },
   )
     .then((res) => {
       if (!res.ok) throw new Error(res.statusText);
@@ -158,12 +158,10 @@ function openConfirmation() {
 
   document.getElementById("summaryPasien").innerText = pasienText;
   document.getElementById("summaryDokter").innerText = dokterText;
-  document.getElementById(
-    "summaryFisik"
-  ).innerText = `TB: ${tinggi} cm / BB: ${berat} kg`;
-  document.getElementById(
-    "summaryKesehatan"
-  ).innerText = `Goldar: ${goldar} | Tensi: ${tensi}`;
+  document.getElementById("summaryFisik").innerText =
+    `TB: ${tinggi} cm / BB: ${berat} kg`;
+  document.getElementById("summaryKesehatan").innerText =
+    `Goldar: ${goldar} | Tensi: ${tensi}`;
   document.getElementById("summaryKeperluan").innerText = keperluan;
 
   // 3. Tampilkan Modal
@@ -183,7 +181,7 @@ function closeConfirmation() {
    ============================ */
 function saveData() {
   const btnSimpan = document.querySelector(
-    '#modalKonfirmasi button[onclick="saveData()"]'
+    '#modalKonfirmasi button[onclick="saveData()"]',
   );
   const originalText = btnSimpan.innerText;
   btnSimpan.innerText = "Menyimpan...";
@@ -193,19 +191,19 @@ function saveData() {
   const formData = new FormData();
   formData.append(
     "id_pasien",
-    document.getElementById("selectedPasienId").value
+    document.getElementById("selectedPasienId").value,
   );
   formData.append("id_dokter", document.getElementById("inputDokter").value);
   formData.append(
     "tanggal_periksa",
-    document.getElementById("inputTanggal").value
+    document.getElementById("inputTanggal").value,
   );
   formData.append("tinggi_badan", document.getElementById("inputTinggi").value);
   formData.append("berat_badan", document.getElementById("inputBerat").value);
   formData.append("tekanan_darah", document.getElementById("inputTensi").value);
   formData.append(
     "keperluan_surat",
-    document.getElementById("inputKeperluan").value
+    document.getElementById("inputKeperluan").value,
   );
 
   const goldarEl = document.querySelector('input[name="goldar"]:checked');
@@ -222,7 +220,7 @@ function saveData() {
       if (res.status) {
         alert("Sukses! " + res.message);
         // Refresh ke halaman utama controller
-        window.location.href = "/riwayat_skkd";
+        window.location.href = "/pendaftaran_skkd";
       } else {
         let msg = "Gagal menyimpan:\n";
         if (res.errors) {

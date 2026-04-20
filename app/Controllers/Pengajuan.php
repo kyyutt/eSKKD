@@ -154,28 +154,43 @@ class Pengajuan extends BaseController
      */
     public function update($id)
     {
-        // Yang diupdate adalah data FISIK pendaftaran, bukan biodata pasien
-        $data = [
-            'tinggi_badan'    => $this->request->getPost('tinggi_badan'),
-            'berat_badan'     => $this->request->getPost('berat_badan'),
-            'golongan_darah'  => $this->request->getPost('golongan_darah'),
-            'tekanan_darah'   => $this->request->getPost('tekanan_darah'),
-            'keperluan_surat' => $this->request->getPost('keperluan_surat'),
+        // 1. Cek AJAX biar nggak bisa ditembak lsg dr URL
+        if (!$this->request->isAJAX()) return $this->response->setStatusCode(404);
 
-            // Jangan lupa catat siapa yang ngedit
+        // 2. Validasi lagi (copy dr store saja biar seragam)
+        if (!$this->validate([
+            'tinggi_badan'    => 'required|numeric',
+            'berat_badan'     => 'required|numeric',
+            'keperluan_surat' => 'required|min_length[5]',
+        ])) {
+            return $this->response->setJSON([
+                'status' => false,
+                'errors' => $this->validator->getErrors()
+            ]);
+        }
+
+        // 3. Mapping data + Trim (Cukur spasi)
+        $data = [
+            'tinggi_badan'    => trim($this->request->getPost('tinggi_badan')),
+            'berat_badan'     => trim($this->request->getPost('berat_badan')),
+            'golongan_darah'  => $this->request->getPost('golongan_darah'),
+            'tekanan_darah'   => trim($this->request->getPost('tekanan_darah')),
+            'keperluan_surat' => trim($this->request->getPost('keperluan_surat')),
             'updated_by'      => session()->get('id_user')
         ];
 
-        // Bisa tambahkan validasi jika perlu, misal id_dokter berubah
+        // Update Dokter jika diubah
         if ($this->request->getPost('id_dokter')) {
             $data['id_dokter'] = $this->request->getPost('id_dokter');
         }
 
-        $this->pendaftaran_skkd->update($id, $data);
+        // 4. Eksekusi
+        if ($this->pendaftaran_skkd->update($id, $data)) {
+            return $this->response->setJSON(['status' => true, 'message' => 'Data pendaftaran berhasil diperbarui']);
+        }
 
-        return $this->response->setJSON(['status' => true, 'message' => 'Data pendaftaran berhasil diubah']);
+        return $this->response->setJSON(['status' => false, 'message' => 'Gagal memperbarui data']);
     }
-
     /**
      * =========================
      * DELETE
@@ -187,7 +202,7 @@ class Pengajuan extends BaseController
 
         return $this->response->setJSON(['status' => true, 'message' => 'Data pendaftaran dihapus']);
     }
-        private function bulanRomawi($bulan)
+    private function bulanRomawi($bulan)
     {
         $map = [
             1 => 'I',

@@ -7,8 +7,9 @@
     <title><?= $title ?? 'Cetak Laporan' ?></title>
     <style>
         @page {
-            size: A4 landscape;
-            margin: 10mm 15mm;
+            /* Ukuran F4 Landscape manual */
+            size: 330mm 215mm;
+            margin: 0;
         }
 
         body {
@@ -17,15 +18,14 @@
             margin: 0;
             padding: 0;
             -webkit-print-color-adjust: exact;
-            color: #000;
         }
 
-        /* CONTAINER UTAMA */
+        /* CONTAINER: Lebar F4 Landscape adalah 330mm */
         .container {
-            width: 297mm;
-            /* Lebar A4 Landscape */
-            min-height: 210mm;
-            padding: 10mm 15mm;
+            width: 330mm;
+            min-height: 215mm;
+            /* Padding: Atas 10mm, Samping 25mm (Biar gak terlalu ke margin), Bawah 15mm */
+            padding: 10mm 25mm 15mm 25mm;
             margin: 10px auto;
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -75,37 +75,35 @@
 
         .header-text {
             width: 100%;
-            padding: 0 90px;
-            /* Memberi ruang agar tidak menabrak logo */
+            padding: 0 50px;
             box-sizing: border-box;
+            text-align: center;
         }
 
-        .header h1 {
-            font-size: 14pt;
+        .header-text h1,
+        .header-text h2 {
+            font-size: 14pt !important;
             margin: 0;
             text-transform: uppercase;
             font-weight: bold;
-        }
-
-        .header h2 {
-            font-size: 16pt;
-            margin: 0;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .header h3 {
-            font-size: 13pt;
-            margin: 1px 0;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .header p {
-            font-size: 9pt;
-            margin: 1px 0;
             line-height: 1.1;
-            white-space: nowrap;
+        }
+
+        .header-text h3 {
+            font-size: 18pt !important;
+            margin: 2px 0;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .header-text p.address {
+            font-size: 11pt !important;
+            margin: 0;
+        }
+
+        .header-text p.footer-header {
+            font-size: 9pt !important;
+            margin: 0;
         }
 
         /* --- JUDUL LAPORAN --- */
@@ -173,7 +171,7 @@
         /* --- SIGNATURE (TTD) --- */
         .signature-section {
             float: right;
-            width: 250px;
+            width: 220px;
             text-align: left;
             /* Rata kiri di dalam box kanan */
             margin-top: 30px;
@@ -187,26 +185,58 @@
 
         /* --- TOMBOL PRINT (HIDDEN SAAT PRINT) --- */
         @media print {
+
+            .no-print,
+            .ci_logo,
+            .debug-bar,
+            .codeigniter-debug-bar,
+            #debug-icon,
+            #debug-bar,
+            .display-errors,
+            img[src*="logo-ci"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
+
             body {
-                background-color: white;
+                background: white;
             }
 
             .container {
                 margin: 0;
                 box-shadow: none;
-                border: none;
-                width: 100%;
+                width: 330mm;
+                /* Pastikan lebar tetap F4 saat print */
             }
+        }
 
-            .no-print {
-                display: none !important;
-            }
+        /* Posisikan Logo Kop agar tetap presisi dengan margin 25mm */
+        .logo-left {
+            position: absolute;
+            left: 25mm;
+            top: 10mm;
+            width: 85px;
+        }
 
-            /* Paksa background color (untuk header tabel) tercetak */
-            .report-table th {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+        .logo-right {
+            position: absolute;
+            right: 25mm;
+            top: 10mm;
+            width: 85px;
+        }
+
+        .header-text {
+            width: 100%;
+            padding: 0 100px;
+            text-align: center;
+        }
+
+        /* Tabel Laporan agar memanfaatkan lebar F4 */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
         }
 
         .btn-print {
@@ -252,10 +282,10 @@
             <div class="header-text">
                 <h1>Pemerintah Kota Jayapura</h1>
                 <h2>Dinas Kesehatan</h2>
-                <h3>Puskesmas Elly Uyo</h3>
-                <p>Jl. Ardipura III Polimak, Distrik Jayapura Selatan</p>
-                <p>KOTA JAYAPURA - PAPUA</p>
-                <p>Kode Pos 992234, Tlp (0967)532364 / HP 082197581196, Email: puskesmasellyuyo@gmail.com</p>
+                <h3>UPTD Puskesmas Elly Uyo</h3>
+                <p class="address">Jl. Ardipura III Polimak, Distrik Jayapura Selatan</p>
+                <p class="address">KOTA JAYAPURA - PAPUA</p>
+                <p class="footer-header">Kode Pos 992234, No. Tlp (0967)532364 / HP 082197581196, Email: puskesmasellyuyo@gmail.com</p>
             </div>
 
             <div class="logo-right">
@@ -265,8 +295,30 @@
 
         <div class="title-section">
             <h4>LAPORAN REKAPITULASI PENERBITAN SURAT KETERANGAN KESEHATAN</h4>
-            <?php if (!empty($periode['start']) && !empty($periode['end'])) : ?>
-                <p>Periode: <?= date('d F Y', strtotime($periode['start'])) ?> s/d <?= date('d F Y', strtotime($periode['end'])) ?></p>
+            <?php
+            $bulan_indo = [
+                '01' => 'Januari',
+                '02' => 'Februari',
+                '03' => 'Maret',
+                '04' => 'April',
+                '05' => 'Mei',
+                '06' => 'Juni',
+                '07' => 'Juli',
+                '08' => 'Agustus',
+                '09' => 'September',
+                '10' => 'Oktober',
+                '11' => 'November',
+                '12' => 'Desember'
+            ];
+
+            if (!empty($periode['start']) && !empty($periode['end'])) :
+                $start = strtotime($periode['start']);
+                $end = strtotime($periode['end']);
+
+                $tgl_start = date('d', $start) . ' ' . $bulan_indo[date('m', $start)] . ' ' . date('Y', $start);
+                $tgl_end = date('d', $end) . ' ' . $bulan_indo[date('m', $end)] . ' ' . date('Y', $end);
+            ?>
+                <p>Periode: <?= $tgl_start ?> s/d <?= $tgl_end ?></p>
             <?php else : ?>
                 <p>Periode: Seluruh Data</p>
             <?php endif; ?>
@@ -320,12 +372,17 @@
 
         <div class="signature-section">
             <p>Dikeluarkan di : Jayapura</p>
-            <p>Pada Tanggal : <?= date('d F Y') ?></p>
+            <p>Pada Tanggal :
+                <?php
+                $bulan = ['01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April', '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus', '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'];
+                echo date('d') . ' ' . $bulan[date('m')] . ' ' . date('Y');
+                ?>
+            </p>
             <br>
-            <p>Kepala Puskesmas Elly Uyo,</p>
-            <br><br><br><br>
-            <p style="text-decoration: underline; font-weight: bold;">( .................................................. )</p>
-            <p>NIP. ..........................................</p>
+            <p>Kepala UPTD Puskesmas Elly Uyo,</p>
+            <br><br><br>
+            <p style="text-decoration: underline; font-weight: bold;">Wellem Eppang, SKM</p>
+            <p>NIP. 19720614200003</p>
         </div>
 
         <div style="clear: both;"></div>

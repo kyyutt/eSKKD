@@ -72,15 +72,15 @@
             <form id="formEditDokter" class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nomor Identitas</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nomor Identitas<span class="text-red-500">*</span></label>
                     <input type="text" name="nomor_identitas"
-                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
                 </div>
 
                 <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap Dokter</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap Dokter<span class="text-red-500">*</span></label>
                     <input type="text" name="nama_dokter"
-                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
                 </div>
             </form>
         </div>

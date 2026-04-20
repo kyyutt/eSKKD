@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Surat Keterangan Kesehatan - <?= $d['nama_lengkap'] ?></title>
     <style>
-        /* CSS ASLI TETAP DIJAGA */
         @page {
-            size: A4;
+            size: 215mm 330mm;
             margin: 0;
         }
 
@@ -20,25 +19,26 @@
             -webkit-print-color-adjust: exact;
         }
 
+        /* Container disesuaikan ke F4 */
         .container {
-            width: 210mm;
-            height: 297mm;
-            padding: 10mm 15mm;
+            width: 215mm;
+            min-height: 330mm;
+            /* Pakai min-height agar fleksibel */
+            padding: 10mm 25mm 20mm 25mm;
             margin: 10px auto;
             background: white;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
             position: relative;
-            overflow: hidden;
         }
 
+        /* HEADER SECTION */
         .header {
             text-align: center;
             border-bottom: 4px double black;
             padding-bottom: 8px;
             margin-bottom: 15px;
             position: relative;
-            min-height: 90px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -48,12 +48,11 @@
         .logo-right {
             position: absolute;
             top: 0;
-            width: 85px;
-            height: 85px;
+            width: 90px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
         }
 
         .logo-left {
@@ -69,75 +68,77 @@
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            /* Biar gak gepeng */
         }
 
         .header-text {
             width: 100%;
-            padding: 0 90px;
+            padding: 0 50px;
             box-sizing: border-box;
+            text-align: center;
         }
 
-        .header h1 {
-            font-size: 14pt;
+        .header-text h1,
+        .header-text h2 {
+            font-size: 14pt !important;
             margin: 0;
             text-transform: uppercase;
             font-weight: bold;
-        }
-
-        .header h2 {
-            font-size: 16pt;
-            margin: 0;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .header h3 {
-            font-size: 13pt;
-            margin: 1px 0;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .header p {
-            font-size: 9pt;
-            margin: 1px 0;
             line-height: 1.1;
-            white-space: nowrap;
+        }
+
+        .header-text h3 {
+            font-size: 18pt !important;
+            margin: 2px 0;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .header-text p.address {
+            font-size: 11pt !important;
+            margin: 0;
+        }
+
+        .header-text p.footer-header {
+            font-size: 9pt !important;
+            margin: 0;
         }
 
         .title-section {
             text-align: center;
-            margin-bottom: 12px;
+            /* Reset margin agar tidak terlalu turun dari garis kop */
+            margin-top: 20px;
+            margin-bottom: 35px;
         }
 
         .title-section h4 {
             font-size: 13pt;
             text-decoration: underline;
-            margin: 5px 0 0 0;
+            /* Paksa margin top ke 0 agar mepet ke garis kop surat */
+            margin: 0;
             text-transform: uppercase;
         }
 
         .title-section p {
             margin: 0;
-            font-weight: bold;
             font-size: 11pt;
+            line-height: 1.2;
         }
 
         .content {
-            font-size: 11pt;
-            line-height: 1.4;
-            text-align: justify;
+            font-size: 12pt;
+            line-height: 1.5;
         }
 
         .data-table {
             width: 100%;
-            margin: 8px 0;
+            margin: 10px 0;
             border-collapse: collapse;
         }
 
         .data-table td {
+            padding: 2px 0;
             vertical-align: top;
-            padding: 1.5px 0;
         }
 
         .label {
@@ -148,151 +149,151 @@
             width: 15px;
         }
 
+        /* CHECKBOX SECTION */
         .results-container {
-            margin: 8px 0;
+            margin: 15px 0;
             display: flex;
             flex-wrap: wrap;
+            row-gap: 10px;
         }
 
         .result-item {
             width: 50%;
-            margin-bottom: 4px;
             display: flex;
             align-items: center;
         }
 
         .checkbox-rect {
-            width: 30px;
-            height: 12px;
-            border: 2px solid black;
+            width: 35px;
+            height: 13px;
+            border: 3px solid black;
+            border-radius: 2px;
+            /* Tebal sesuai permintaan */
             display: inline-block;
-            margin-right: 8px;
+            margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .indent-tab {
             margin-left: 1.2cm;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .indent-tab p {
-            margin: 4px 0;
-        }
-
-        .physical-stats {
-            margin-top: 10px;
-            width: 60%;
+            margin-top: 15px;
         }
 
         .signature-section {
-            position: absolute;
-            bottom: 40mm;
-            right: 15mm;
+            margin-top: 40px;
+            float: right;
             width: 220px;
             text-align: left;
+            /* Teks di dalam blok tetap rata kiri */
+            margin-right: 0;
         }
 
         .signature-section p {
-            margin: 2px 0;
+            margin: 0;
+            line-height: 1.2;
+            /* Dibuat lebih mepet lagi sesuai permintaan */
+            font-size: 11pt;
+        }
+
+        .signature-name {
+            /* Gunakan margin-top untuk memberi ruang tanda tangan */
+            margin-top: 60px !important;
+            text-decoration: underline;
+            text-transform: uppercase;
+            display: block;
+            /* Memastikan teks nama jadi blok tersendiri */
         }
 
         .footer-note {
-            position: absolute;
-            bottom: 15mm;
-            left: 15mm;
+            clear: both;
+            padding-top: 50px;
             font-size: 9pt;
             font-style: italic;
         }
 
-        @media print {
-            body {
-                background-color: white;
-            }
-
-            .container {
-                margin: 0;
-                box-shadow: none;
-                border: none;
-            }
-
-            .no-print {
-                display: none;
-            }
-        }
-
+        /* Tombol Print */
         .btn-print {
             position: fixed;
             top: 20px;
             right: 20px;
             padding: 12px 24px;
-            /* Warna Abu-abu Elegan */
             background: #475569;
             color: white;
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            z-index: 100;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-            /* Layout Icon dan Teks */
+            z-index: 9999;
             display: flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.2s ease;
         }
 
-        .btn-print:hover {
-            background: #334155;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        .request-info {
+            margin: 15px 0;
+            /* Jarak blok ini dengan teks di atas & bawahnya */
         }
 
-        .btn-print:active {
-            transform: translateY(0);
+        .request-info p {
+            margin: 0;
+            /* Melekatkan baris atas dan bawah */
+            line-height: 1.4;
+            /* Jarak antar baris yang ideal */
+            font-size: 11pt;
         }
 
-        .btn-print svg {
-            width: 18px;
-            height: 18px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
+        @media print {
+            body {
+                background: white;
+                margin: 0;
+            }
+
+            .container {
+                margin: 0 auto;
+                box-shadow: none;
+                width: 215mm;
+                height: 330mm;
+            }
+
+            .no-print,
+            .ci_logo,
+            .debug-bar,
+            .codeigniter-debug-bar,
+            #debug-icon,
+            #debug-bar,
+            .display-errors,
+            img[src*="logo-ci"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <button class="btn-print no-print" onclick="window.print()">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M6 14h12v8H6v-8z" stroke-linecap="round" stroke-linejoin="round" />
+    <button id="tombolCetak" class="btn-print no-print" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6v-8z" />
         </svg>
         <span>Cetak Halaman</span>
     </button>
 
     <div class="container">
         <div class="header">
-            <div class="logo-left" style="width: 100px; height: 85px;">
-                <img src="<?= base_url('assets/images/logo-jpr.png') ?>"
-                    alt="Logo Jayapura"
-                    style="width: 100%; height: 100%; object-fit: fill;"
-                    onerror="this.style.display='none'">
+            <div class="logo-left">
+                <img src="<?= base_url('assets/images/logo-jpr.png') ?>" alt="Logo Jayapura">
             </div>
-
             <div class="header-text">
                 <h1>Pemerintah Kota Jayapura</h1>
                 <h2>Dinas Kesehatan</h2>
-                <h3>Puskesmas Elly Uyo</h3>
-                <p>Jl. Ardipura III Polimak, Distrik Jayapura Selatan</p>
-                <p>KOTA JAYAPURA - PAPUA</p>
-                <p>Kode Pos 992234, No. Tlp (0967)532364 / HP 082197581196, Email: puskesmasellyuyo@gmail.com</p>
+                <h3>UPTD Puskesmas Elly Uyo</h3>
+                <p class="address">Jl. Ardipura III Polimak, Distrik Jayapura Selatan</p>
+                <p class="address">KOTA JAYAPURA - PAPUA</p>
+                <p class="footer-header">Kode Pos 992234, No. Tlp (0967)532364 / HP 082197581196, Email: puskesmasellyuyo@gmail.com</p>
             </div>
-
             <div class="logo-right">
-                <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo Kemeskes" onerror="this.style.display='none'">
+                <img src="<?= base_url('assets/images/logo.png') ?>" alt="Logo Kemenkes">
             </div>
         </div>
 
@@ -302,40 +303,55 @@
         </div>
 
         <div class="content">
-            <p style="margin-bottom: 5px;">Dokter Penguji Kesehatan di Puskesmas Elly Uyo, dengan mengingat sumpah/janji yang telah diucapkan pada waktu menerima jabatan menerangkan bahwa :</p>
+            <p style="text-indent: 2em; text-align: justify;">Dokter Penguji Kesehatan di Puskesmas Elly Uyo, dengan mengingat sumpah/janji yang telah diucapkan pada waktu menerima jabatan menerangkan bahwa :</p>
 
-            <table class="data-table">
+            <table class="data-table" style="line-height: 1.2; margin-top: 5px; margin-bottom: 5px;">
                 <tr>
-                    <td class="label">Nama</td>
-                    <td class="separator">:</td>
-                    <td style="text-transform: uppercase;"><?= $d['nama_lengkap'] ?></td>
+                    <td class="label" style="padding: 1px 0;">Nama</td>
+                    <td class="separator" style="padding: 1px 0;">:</td>
+                    <td style="text-transform: uppercase; padding: 1px 0;"><?= $d['nama_lengkap'] ?></td>
                 </tr>
                 <tr>
-                    <td class="label">NIK</td>
-                    <td class="separator">:</td>
-                    <td><?= $d['nik'] ?></td>
+                    <td class="label" style="padding: 1px 0;">NIK</td>
+                    <td class="separator" style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= $d['nik'] ?></td>
                 </tr>
                 <tr>
-                    <td class="label">Tempat/Tgl Lahir</td>
-                    <td class="separator">:</td>
-                    <td><?= strtoupper($d['tempat_lahir']) ?>, <?= strtoupper(date('d F Y', strtotime($d['tanggal_lahir']))) ?></td>
+                    <td class="label" style="padding: 1px 0;">Tempat/Tgl Lahir</td>
+                    <td class="separator" style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= strtoupper($d['tempat_lahir']) ?>,
+                        <?php
+                        $bulan = ['01' => 'JANUARI', '02' => 'FEBRUARI', '03' => 'MARET', '04' => 'APRIL', '05' => 'MEI', '06' => 'JUNI', '07' => 'JULI', '08' => 'AGUSTUS', '09' => 'SEPTEMBER', '10' => 'OKTOBER', '11' => 'NOVEMBER', '12' => 'DESEMBER'];
+                        echo date('d', strtotime($d['tanggal_lahir'])) . ' ' . $bulan[date('m', strtotime($d['tanggal_lahir']))] . ' ' . date('Y', strtotime($d['tanggal_lahir']));
+                        ?>
+                    </td>
                 </tr>
                 <tr>
-                    <td class="label">Pekerjaan</td>
-                    <td class="separator">:</td>
-                    <td><?= strtoupper($d['pekerjaan'] ?? '-') ?></td>
+                    <td class="label" style="padding: 1px 0;">Pekerjaan</td>
+                    <td class="separator" style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= strtoupper($d['pekerjaan'] ?? '-') ?></td>
                 </tr>
                 <tr>
-                    <td class="label">Alamat</td>
-                    <td class="separator">:</td>
-                    <td><?= strtoupper($d['alamat']) ?></td>
+                    <td class="label" style="padding: 1px 0;">Alamat</td>
+                    <td class="separator" style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= strtoupper($d['alamat']) ?></td>
                 </tr>
             </table>
 
-            <p style="margin: 5px 0;">Telah diperiksa dengan teliti atas permintaan <i style="font-weight: bold;">SENDIRI</i></p>
-            <p style="margin: 5px 0;">Tanggal : <?= strtoupper(date('d F Y', strtotime($d['tgl_terbit']))) ?> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nomor : -</p>
+            <div class="request-info">
+                <p>Telah diperiksa dengan teliti atas permintaan <b><i>SENDIRI</i></b></p>
+                <p>
+                    <span>Tanggal :
+                        <?php
+                        $bulan = ['01' => 'JANUARI', '02' => 'FEBRUARI', '03' => 'MARET', '04' => 'APRIL', '05' => 'MEI', '06' => 'JUNI', '07' => 'JULI', '08' => 'AGUSTUS', '09' => 'SEPTEMBER', '10' => 'OKTOBER', '11' => 'NOVEMBER', '12' => 'DESEMBER'];
+                        echo date('d', strtotime($d['tgl_terbit'])) . ' ' . $bulan[date('m', strtotime($d['tgl_terbit']))] . ' ' . date('Y', strtotime($d['tgl_terbit']));
+                        ?>
+                    </span>
+                    <span style="padding-left: 100px;">Nomor : -</span>
+                </p>
+            </div>
 
-            <p style="margin: 5px 0;">Dan berdasarkan hasil :</p>
+            <p>Dan berdasarkan hasil :</p>
             <div class="results-container">
                 <div class="result-item"><span class="checkbox-rect"></span> Anamnesa/Wawancara</div>
                 <div class="result-item"><span class="checkbox-rect"></span> Pemeriksaan Fisik/Badan</div>
@@ -345,32 +361,32 @@
             </div>
 
             <div class="indent-tab">
-                <p>* Yang bersangkutan dinyatakan : <strong>SEHAT</strong> / <strong>TIDAK SEHAT</strong></p>
-                <p>Memenuhi persyaratan untuk : <strong style="font-style: italic;">" <?= strtoupper($d['keperluan_surat']) ?> "</strong></p>
+                <p>* Yang bersangkutan dinyatakan : <strong>SEHAT / TIDAK SEHAT</strong></p>
+                <p>Memenuhi persyaratan untuk : <strong><i>" <?= strtoupper($d['keperluan_surat']) ?> "</i></strong></p>
             </div>
 
-            <p style="margin: 5px 0;">Demikian Surat Kesehatan ini dipergunakan sebagaimana mestinya.</p>
+            <p>Demikian Surat Kesehatan ini dipergunakan sebagaimana mestinya.</p>
 
-            <table class="data-table physical-stats">
+            <table class="data-table" style="width: 70%; margin-top: 10px; margin-bottom: 5px; line-height: 1.2;">
                 <tr>
-                    <td style="width: 130px;">Buta Warna</td>
-                    <td style="width: 15px;">:</td>
-                    <td>Ya / Tidak</td>
+                    <td style="width: 150px; padding: 1px 0;">Buta Warna</td>
+                    <td style="width: 20px; padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;">Ya / Tidak</td>
                 </tr>
                 <tr>
-                    <td>Mata</td>
-                    <td>:</td>
-                    <td>Normal / Tidak Normal</td>
+                    <td style="padding: 1px 0;">Mata</td>
+                    <td style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;">Normal / Tidak Normal</td>
                 </tr>
                 <tr>
-                    <td>Tinggi Badan</td>
-                    <td>:</td>
-                    <td><?= $d['tinggi_badan'] ?> Cm</td>
+                    <td style="padding: 1px 0;">Tinggi Badan</td>
+                    <td style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= (int)$d['tinggi_badan'] ?>&nbsp; Cm</td>
                 </tr>
                 <tr>
-                    <td>Berat Badan</td>
-                    <td>:</td>
-                    <td><?= $d['berat_badan'] ?> Kg</td>
+                    <td style="padding: 1px 0;">Berat Badan</td>
+                    <td style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= (int)$d['berat_badan'] ?>&nbsp;&nbsp;&nbsp; Kg</td>
                 </tr>
                 <tr>
                     <td>Golongan Darah</td>
@@ -402,22 +418,47 @@
                         <?php endforeach; ?>
                     </td>
                 </tr>
-
                 <tr>
-                    <td>Tekanan Darah</td>
-                    <td>:</td>
-                    <td><?= $d['tekanan_darah'] ?> MmHg</td>
+                    <td style="padding: 1px 0;">Tekanan Darah</td>
+                    <td style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;"><?= $d['tekanan_darah'] ?> &nbsp; MmHg</td>
+                </tr>
+                <tr>
+                    <td style="padding: 1px 0;">*Keterangan</td>
+                    <td style="padding: 1px 0;">:</td>
+                    <td style="padding: 1px 0;">&nbsp;</td>
                 </tr>
             </table>
 
             <div class="signature-section">
                 <p>Dikeluarkan di : Jayapura</p>
-                <p>Pada Tanggal : <?= date('d F Y', strtotime($d['tgl_terbit'])) ?></p>
+                <p>Pada Tanggal :
+                    <?php
+                    $bulan_indo = [
+                        '01' => 'Januari',
+                        '02' => 'Februari',
+                        '03' => 'Maret',
+                        '04' => 'April',
+                        '05' => 'Mei',
+                        '06' => 'Juni',
+                        '07' => 'Juli',
+                        '08' => 'Agustus',
+                        '09' => 'September',
+                        '10' => 'Oktober',
+                        '11' => 'November',
+                        '12' => 'Desember'
+                    ];
+                    $tgl_raw = strtotime($d['tgl_terbit']);
+                    echo date('d', $tgl_raw) . ' ' . strtoupper($bulan_indo[date('m', $tgl_raw)]) . ' ' . date('Y', $tgl_raw);
+                    ?>
+                </p>
                 <p>Dokter Yang Memeriksa,</p>
-                <br><br><br>
-                <p><strong><?= $d['nama_dokter'] ?></strong></p>
+
+                <p class="signature-name"><?= $d['nama_dokter'] ?></p>
+
                 <p><?= $d['nomor_identitas'] ?></p>
             </div>
+            <div style="clear: both;"></div>
 
             <div class="footer-note">
                 * Coret yang tidak perlu
@@ -425,13 +466,13 @@
         </div>
     </div>
 
+    <script>
+        window.onafterprint = function() {
+            setTimeout(function() {
+                window.close();
+            }, 500);
+        };
+    </script>
 </body>
-<script>
-    window.onafterprint = function() {
-        setTimeout(function() {
-            window.close();
-        }, 500);
-    };
-</script>
 
 </html>

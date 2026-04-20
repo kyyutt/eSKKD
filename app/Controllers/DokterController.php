@@ -71,7 +71,17 @@ class DokterController extends BaseController
      */
     public function store()
     {
-        $nomor_identitas = $this->request->getPost('nomor_identitas');
+        $nama_dokter = trim($this->request->getPost('nama_dokter'));
+        $nomor_identitas = trim($this->request->getPost('nomor_identitas'));
+
+        // Validasi empty
+        if (empty($nama_dokter)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama dokter tidak boleh kosong'], 400);
+        }
+
+        if (empty($nomor_identitas)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nomor identitas tidak boleh kosong'], 400);
+        }
 
         // Check if nomor_identitas already exists
         $existing = $this->dokter->where('nomor_identitas', $nomor_identitas)->first();
@@ -80,7 +90,7 @@ class DokterController extends BaseController
         }
 
         $this->dokter->insert([
-            'nama_dokter'   => strtoupper($this->request->getPost('nama_dokter')),
+            'nama_dokter'   => strtoupper($nama_dokter),
             'nomor_identitas' => $nomor_identitas,
             'created_by'    => session()->get('id_user'),
         ]);
@@ -95,7 +105,17 @@ class DokterController extends BaseController
      */
     public function update($id)
     {
-        $nomor_identitas = $this->request->getPost('nomor_identitas');
+        $nama_dokter = trim($this->request->getPost('nama_dokter'));
+        $nomor_identitas = trim($this->request->getPost('nomor_identitas'));
+
+        // Validasi empty
+        if (empty($nama_dokter)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nama dokter tidak boleh kosong'], 400);
+        }
+
+        if (empty($nomor_identitas)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Nomor identitas tidak boleh kosong'], 400);
+        }
 
         // Check if nomor_identitas already exists (excluding current record)
         $existing = $this->dokter->where('nomor_identitas', $nomor_identitas)->where('id_dokter !=', $id)->first();
@@ -104,7 +124,7 @@ class DokterController extends BaseController
         }
 
         $this->dokter->update($id, [
-            'nama_dokter'   => strtoupper($this->request->getPost('nama_dokter')),
+            'nama_dokter'   => strtoupper($nama_dokter),
             'nomor_identitas' => $nomor_identitas,
             'updated_by'    => session()->get('id_user'),
         ]);
@@ -115,5 +135,11 @@ class DokterController extends BaseController
     {
         $this->dokter->delete($id);
         return $this->response->setJSON(['status' => true]);
+    }
+
+    public function show($id)
+    {
+        $data = $this->dokter->find($id);
+        return $this->response->setJSON($data);
     }
 }

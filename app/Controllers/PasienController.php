@@ -85,14 +85,30 @@ class PasienController extends BaseController
      */
     public function store()
     {
+        $nik = trim($this->request->getPost('nik'));
+        $nama_lengkap = trim($this->request->getPost('nama_lengkap'));
+        $tempat_lahir = trim($this->request->getPost('tempat_lahir'));
+        $tanggal_lahir = trim($this->request->getPost('tanggal_lahir'));
+        $jenis_kelamin = trim($this->request->getPost('jenis_kelamin'));
+        $pekerjaan = trim($this->request->getPost('pekerjaan'));
+        $alamat = trim($this->request->getPost('alamat'));
+
+        if (empty($nik) || empty($nama_lengkap) || empty($tempat_lahir) || empty($tanggal_lahir) || empty($jenis_kelamin) || empty($pekerjaan) || empty($alamat)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Semua field harus diisi']);
+        }
+
+        if ($this->pasien->where('nik', $nik)->first()) {
+            return $this->response->setJSON(['status' => false, 'message' => 'NIK sudah terdaftar']);
+        }
+
         $this->pasien->insert([
-            'nik'            => $this->request->getPost('nik'),
-            'nama_lengkap'   => strtoupper($this->request->getPost('nama_lengkap')),
-            'tempat_lahir'   => $this->request->getPost('tempat_lahir'),
-            'tanggal_lahir'  => $this->request->getPost('tanggal_lahir'),
-            'jenis_kelamin'  => $this->request->getPost('jenis_kelamin'),
-            'pekerjaan'      => $this->request->getPost('pekerjaan'),
-            'alamat'         => $this->request->getPost('alamat'),
+            'nik'            => $nik,
+            'nama_lengkap'   => strtoupper($nama_lengkap),
+            'tempat_lahir'   => $tempat_lahir,
+            'tanggal_lahir'  => $tanggal_lahir,
+            'jenis_kelamin'  => $jenis_kelamin,
+            'pekerjaan'      => $pekerjaan,
+            'alamat'         => $alamat,
             'created_by'     => session()->get('id_user'),
         ]);
 
@@ -126,13 +142,24 @@ class PasienController extends BaseController
      */
     public function update($id)
     {
+        $nama_lengkap = trim($this->request->getPost('nama_lengkap'));
+        $tempat_lahir = trim($this->request->getPost('tempat_lahir'));
+        $tanggal_lahir = trim($this->request->getPost('tanggal_lahir'));
+        $jenis_kelamin = trim($this->request->getPost('jenis_kelamin'));
+        $pekerjaan = trim($this->request->getPost('pekerjaan'));
+        $alamat = trim($this->request->getPost('alamat'));
+
+        if (empty($nama_lengkap) || empty($tempat_lahir) || empty($tanggal_lahir) || empty($jenis_kelamin) || empty($pekerjaan) || empty($alamat)) {
+            return $this->response->setJSON(['status' => false, 'message' => 'Semua field harus diisi']);
+        }
+
         $this->pasien->update($id, [
-            'nama_lengkap'  => strtoupper($this->request->getPost('nama_lengkap')),
-            'tempat_lahir'  => $this->request->getPost('tempat_lahir'),
-            'tanggal_lahir' => $this->request->getPost('tanggal_lahir'),
-            'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
-            'pekerjaan'     => $this->request->getPost('pekerjaan'),
-            'alamat'        => $this->request->getPost('alamat'),
+            'nama_lengkap'  => strtoupper($nama_lengkap),
+            'tempat_lahir'  => $tempat_lahir,
+            'tanggal_lahir' => $tanggal_lahir,
+            'jenis_kelamin' => $jenis_kelamin,
+            'pekerjaan'     => $pekerjaan,
+            'alamat'        => $alamat,
             'updated_by'    => session()->get('id_user'),
         ]);
 

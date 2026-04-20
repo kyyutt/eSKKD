@@ -39,6 +39,7 @@ $routes->group('pasien', ['filter' => 'auth'], function ($routes) {
 // Protected Routes for Dokter Management
 $routes->group('dokter', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'DokterController::index');
+    $routes->get('(:num)', 'DokterController::show/$1');
     $routes->get('ajaxList', 'DokterController::ajaxList');
     $routes->post('store', 'DokterController::store');
     $routes->post('update/(:num)', 'DokterController::update/$1');

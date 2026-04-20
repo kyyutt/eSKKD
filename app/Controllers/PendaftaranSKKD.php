@@ -60,29 +60,33 @@ class PendaftaranSKKD extends BaseController
             return $this->response->setStatusCode(404);
         }
 
-        // Validasi Input
+        // Validasi Input - Tambahin dikit biar lebih mantap
         if (!$this->validate([
             'id_pasien'       => 'required',
             'id_dokter'       => 'required',
             'tanggal_periksa' => 'required|valid_date',
-            'keperluan_surat' => 'required',
+            'keperluan_surat' => 'required|min_length[5]', // Biar nggak asal isi
             'goldar'          => 'required',
+            'tinggi_badan'    => 'required|numeric',
+            'berat_badan'     => 'required|numeric',
+            'tekanan_darah'   => 'required',
         ])) {
             return $this->response->setJSON([
                 'status' => false,
                 'errors' => $this->validator->getErrors()
             ]);
         }
-        // Mapping data
+
+        // Mapping data + Cukur spasi (trim)
         $data = [
             'id_pasien'       => $this->request->getPost('id_pasien'),
             'id_dokter'       => $this->request->getPost('id_dokter'),
             'tanggal_periksa' => $this->request->getPost('tanggal_periksa'),
             'golongan_darah'  => $this->request->getPost('goldar'),
-            'tinggi_badan'    => $this->request->getPost('tinggi_badan'),
-            'berat_badan'     => $this->request->getPost('berat_badan'),
-            'tekanan_darah'   => $this->request->getPost('tekanan_darah'),
-            'keperluan_surat' => $this->request->getPost('keperluan_surat'),
+            'tinggi_badan'    => trim($this->request->getPost('tinggi_badan')),
+            'berat_badan'     => trim($this->request->getPost('berat_badan')),
+            'tekanan_darah'   => trim($this->request->getPost('tekanan_darah')),
+            'keperluan_surat' => trim($this->request->getPost('keperluan_surat')),
             'created_by'      => session()->get('id_user'),
             'status'          => 'Menunggu',
         ];
@@ -96,7 +100,8 @@ class PendaftaranSKKD extends BaseController
         } catch (\Exception $e) {
             return $this->response->setJSON([
                 'status'  => false,
-                'message' => 'Gagal menyimpan data: ' . $e->getMessage()
+                'message' => 'Gagal menyimpan data ke database.'
+                // Jangan tampilin $e->getMessage() ke user ya, rawan security!
             ]);
         }
     }

@@ -17,12 +17,16 @@
                 <div class="md:col-span-2">
                     <label class="block text-sm font-medium text-slate-700 mb-1.5">Dokter Pemeriksa</label>
                     <select name="id_dokter"
-                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all appearance-none cursor-pointer">
+                        class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 font-normal focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all cursor-pointer">
                         <option value="">-- Pilih Dokter --</option>
-                        <?php if (isset($dokter)) : ?>
-                            <?php foreach ($dokter as $d) : ?>
-                                <option value="<?= htmlspecialchars($d['id_dokter'], ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($d['nama_dokter'], ENT_QUOTES, 'UTF-8') ?></option>
+                        <?php if (!empty($dokters)) : ?>
+                            <?php foreach ($dokters as $dokter) : ?>
+                                <option value="<?= $dokter['id_dokter'] ?>">
+                                    <?= $dokter['nama_dokter'] ?>
+                                </option>
                             <?php endforeach; ?>
+                        <?php else : ?>
+                            <option value="" disabled>Data dokter kosong</option>
                         <?php endif; ?>
                     </select>
                 </div>

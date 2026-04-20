@@ -18,20 +18,20 @@
                 <input type="hidden" name="id_user">
 
                 <div class="space-y-1">
-                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap</label>
+                    <label class="block text-sm font-medium text-slate-700 mb-1.5">Nama Lengkap <span class="text-red-500">*</span></label>
                     <input type="text" name="nama_lengkap"
                         class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" required>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Username</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Username <span class="text-red-500">*</span></label>
                         <input type="text" name="username" readonly
                             class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-sm text-slate-500 font-mono cursor-not-allowed outline-none">
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Hak Akses</label>
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5">Hak Akses <span class="text-red-500">*</span></label>
                         <select name="role" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-700 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none cursor-pointer" required>
                             <option value="Admin">Admin</option>
                             <option value="Petugas Loket">Petugas Loket</option>
@@ -43,12 +43,12 @@
                     <p class="text-[11px] font-bold text-blue-600 uppercase tracking-wider mb-3">Ubah Password (Kosongkan jika tidak ingin diubah)</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Password Baru</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Password Baru <span class="text-red-500">*</span></label>
                             <input type="password" name="password" id="edit_password" placeholder="••••••••"
                                 class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Konfirmasi Password</label>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Konfirmasi Password <span class="text-red-500">*</span></label>
                             <input type="password" id="edit_password_confirm" placeholder="••••••••"
                                 class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                         </div>
